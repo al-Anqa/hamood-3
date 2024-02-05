@@ -3,12 +3,12 @@ from transformers import BloomTokenizerFast, BloomForCausalLM
 import torch
 
 def whisper_listen():
-    mic = WhisperMic()
-    result = mic.listen()
+    result = mic.listen_loop()
     print(result)
     return result
 
-print(torch.cuda.is_available())
+print(f'CUDA Detected: {torch.cuda.is_available()}')
+mic = WhisperMic()
 
 tokenizer = BloomTokenizerFast.from_pretrained("bigscience/bloom")
 model = BloomForCausalLM.from_pretrained("bigscience/bloom-3b")
@@ -21,4 +21,4 @@ while True:
     hamood_output = tokenizer.decode(model.generate(hamood_tokens["input_ids"], max_length=output_length)[0])
     print(hamood_output)
 
-    
+    #TODO Make this bad boy faster
